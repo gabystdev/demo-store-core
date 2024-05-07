@@ -25,7 +25,12 @@ export const ProductPageComponent: NextPage<Props> = ({ navigation: links, produ
   const auth = useAuthContext()
   const settings = useSettingsContext()
 
-  const slides = useMemo(() => product.images.map(image => <img key={image} src={image} alt={product.name} className='w-full' />), [product])
+  const slides = useMemo(() => product.images.map((image, index) => <img key={image+index} src={image} alt={product.name} className='w-full' />), [product])
+  const availabilityLabels = {
+    available: i18n.t('general.product.available'),
+    outOfStock: i18n.t('general.product.outOfStock'),
+    negativeStock: i18n.t('general.product.negativeStock')
+  }
 
   return (
     <Page
@@ -61,7 +66,12 @@ export const ProductPageComponent: NextPage<Props> = ({ navigation: links, produ
                   className='block w-full mt-12 h-14 px-6 font-semibold rounded-md text-white bg-violet-400 disabled:bg-gray-300' />
 
                 <AvailabilityContainer skuCode={currentProduct?.sku}>
-                  <AvailabilityTemplate className='mt-6' showShippingMethodName={true} showShippingMethodPrice={true} color={'blue'} timeFormat={'days'} />
+                  <AvailabilityTemplate className='mt-6' 
+                    showShippingMethodName={true} 
+                    showShippingMethodPrice={true} 
+                    color={'blue'} 
+                    timeFormat={'days'} 
+                    labels={availabilityLabels}/>
                 </AvailabilityContainer>
               </>
             )
